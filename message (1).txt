@@ -1,0 +1,1840 @@
+FICHE TECHNIQUE — MODULE BIBLIOGRAPHIE OLS
+Projet : Odin La Science (OLS)
+Module : Bibliographie
+Version : V1 — conception technique fonctionnelle
+Statut : Base de spécification avant implémentation
+Nature : Module documentaire scientifique, moteur de recherche fédéré, gestion de bibliothèque et système de veille scientifique
+
+1. OBJET DU MODULE
+Le module Bibliographie a pour objectif de fournir un environnement scientifique unique permettant de gérer la littérature depuis sa découverte jusqu'à son suivi dans le temps.
+Le module doit couvrir l'ensemble du cycle documentaire :
+RECHERCHER
+    ↓
+DÉCOUVRIR
+    ↓
+CONSULTER
+    ↓
+SÉLECTIONNER
+    ↓
+ARCHIVER
+    ↓
+CLASSER
+    ↓
+EXPLORER
+    ↓
+SURVEILLER
+Il ne doit donc pas être considéré comme un simple gestionnaire de références bibliographiques.
+La finalité globale est :
+Permettre à un chercheur ou à un laboratoire de rechercher, identifier, consulter, conserver, organiser, explorer et surveiller la littérature scientifique depuis un point d'entrée unique.
+Le module doit également intégrer une dimension de statistiques contextuelles, sans créer d'espace d'analyse séparé.
+
+2. PÉRIMÈTRE FONCTIONNEL
+Le module est composé de quatre fonctions fonctionnellement distinctes :
+BIBLIOTHÈQUE
+RECHERCHE
+STATISTIQUES
+VEILLE
+La relation correcte entre ces fonctions est :
+Bibliographie
+   │
+   └──► Statistiques
+           ├──► Bibliothèque
+           └──► Recherche
+
+Bibliothèque ─────► Veille
+Recherche ────────► Veille
+Les Statistiques ne constituent pas une étape intermédiaire obligatoire ni une phase d'analyse.
+Elles représentent simplement les données actuellement consultées.
+La Veille n'est pas alimentée par les Statistiques. Elle peut être créée depuis une recherche, une bibliothèque ou différents objets documentaires.
+
+3. OBJECTIFS PRINCIPAUX
+Le module doit permettre :
+de rechercher la littérature scientifique ;
+d'interroger plusieurs sources ;
+d'adapter une même intention de recherche aux capacités propres de chaque source ;
+de normaliser les résultats ;
+d'identifier les publications de manière canonique ;
+d'éviter les doublons ;
+de regrouper les différentes occurrences d'un même travail ;
+de gérer les relations entre preprints, publications et mises à jour ;
+de consulter les informations bibliographiques ;
+d'accéder aux ressources externes disponibles ;
+d'archiver des publications ;
+d'organiser une bibliothèque ;
+de gérer une bibliothèque personnelle ;
+de gérer une bibliothèque de laboratoire ;
+de permettre l'appartenance d'un même document à plusieurs contextes ;
+de gérer dossiers, sous-dossiers et tags ;
+de sauvegarder des recherches ;
+de créer des collections dynamiques ;
+d'afficher des statistiques contextualisées ;
+de permettre l'interaction entre statistiques et résultats ;
+de créer des veilles ;
+de surveiller de nouveaux articles ;
+de surveiller les citations ;
+de surveiller les publications similaires ;
+de surveiller les preprints et leurs publications finales ;
+de détecter les corrections et rétractations ;
+de surveiller les évolutions post-publication ;
+de produire éventuellement des digests ;
+de conserver l'historique des veilles ;
+de limiter les alertes redondantes ;
+de préserver la provenance des informations ;
+de respecter les contraintes d'accès, de licence et de copyright.
+
+4. PRINCIPES DIRECTEURS
+4.1 Simplicité d'utilisation
+L'utilisateur doit pouvoir effectuer une interaction et comprendre immédiatement son effet.
+Le principe retenu est :
+La complexité fonctionnelle ne doit jamais devenir une complexité visuelle.
+La puissance doit être présente sans obliger l'utilisateur à comprendre toutes les couches internes du système.
+
+4.2 Complexité progressive
+Les fonctions avancées doivent apparaître lorsqu'elles deviennent nécessaires.
+Le module ne doit pas afficher simultanément :
+10 sources
+20 filtres
+recherche sémantique
+Booléens
+statistiques
+options avancées
+relations bibliographiques
+sans nécessité.
+La puissance doit être progressive.
+
+4.3 Transparence
+Le système doit permettre de comprendre :
+d'où vient l'information ;
+où l'article a été trouvé ;
+quelle recherche est active ;
+quels filtres sont actifs ;
+ce que représente le graphique ;
+pourquoi un article est signalé ;
+La provenance des métadonnées doit être conservée lorsque nécessaire.
+
+5. STRUCTURE DES ESPACES
+5.1 Bibliothèque
+La Bibliothèque représente les documents conservés.
+Elle doit permettre :
+dossiers
+sous-dossiers
+collections
+tags
+statuts
+recherches sauvegardées
+Elle répond à :
+« Qu'est-ce que je conserve ? »
+
+5.2 Recherche
+La Recherche représente l'exploration de la littérature.
+Elle doit permettre :
+recherche textuelle
+recherche booléenne
+recherche structurée
+recherche sémantique
+recherche hybride
+filtres
+tri
+autocomplétion
+Elle répond à :
+« Qu'est-ce que je cherche ? »
+
+5.3 Statistiques
+Les Statistiques sont une vue dynamique du contexte courant.
+Elles répondent à :
+« Que montrent les données que je regarde ? »
+Elles sont présentes dans :
+Bibliothèque
+Recherche
+Elles ne constituent pas une page indépendante.
+
+5.4 Veille
+La Veille représente la surveillance dans le temps.
+Elle répond à :
+« Qu'est-ce que je surveille ? »
+Elle peut être alimentée par :
+une recherche
+une collection
+un article
+un auteur
+un journal
+une institution
+une thématique
+
+6. BIBLIOTHÈQUE PERSONNELLE
+Chaque utilisateur doit disposer d'une bibliothèque personnelle.
+Cette bibliothèque peut contenir :
+articles à lire
+articles importants
+documents personnels
+notes personnelles
+tags personnels
+dossiers personnels
+recherches sauvegardées
+veilles personnelles
+Les opérations réalisées dans cet espace ne doivent pas modifier automatiquement la bibliothèque du laboratoire.
+
+7. BIBLIOTHÈQUE DU LABORATOIRE
+Le laboratoire dispose d'un espace documentaire partagé.
+Il peut contenir :
+articles de référence
+reviews importantes
+méthodes
+documentation scientifique
+littérature liée à des projets
+collections communes
+veilles d'équipe
+La structure doit pouvoir être différente de celle des bibliothèques personnelles.
+
+8. SÉPARATION ENTRE DOCUMENT ET APPARTENANCE
+Le modèle doit impérativement distinguer :
+DOCUMENT SCIENTIFIQUE
+et :
+APPARTENANCE À UNE BIBLIOTHÈQUE
+Exemple :
+Article A
+│
+├── Bibliothèque personnelle d'Alice
+│
+└── Bibliothèque du laboratoire X
+Il ne doit pas être créé deux documents scientifiques distincts.
+En revanche, chaque contexte peut avoir ses propres :
+tags
+dossiers
+notes
+statut
+organisation
+
+9. APPARTENANCE MULTIPLE
+Un document peut appartenir simultanément à plusieurs dossiers.
+Exemple :
+Article A
+│
+├── CRISPR
+├── Cancer
+└── Diagnostic
+Le document reste unique.
+Les dossiers représentent des contextes d'organisation et non des copies physiques du document.
+
+10. ORGANISATION HIÉRARCHIQUE
+La bibliothèque doit supporter une structure hiérarchique :
+Bibliothèque
+│
+├── CRISPR
+│   ├── Édition génomique
+│   ├── Diagnostic
+│   └── Applications médicales
+│
+├── PCR
+│
+└── Transcriptomique
+    ├── RNA-seq
+    └── Single-cell
+Le nombre de niveaux de dossiers ne doit pas être limité artificiellement par le concept fonctionnel.
+
+11. TAGS
+Les tags constituent un système de caractérisation transversal.
+Exemple :
+#qPCR
+#Primer
+#Méthode
+#Important
+#À-lire
+La distinction fonctionnelle est :
+Dossier = organisation
+Tag     = caractérisation
+Les deux doivent pouvoir être utilisés simultanément.
+
+12. COLLECTIONS DYNAMIQUES / RECHERCHES SAUVEGARDÉES
+Le module doit pouvoir enregistrer une recherche sous forme de recherche sauvegardée ou de collection dynamique.
+Exemple :
+Articles sur CRISPR publiés depuis 2024
+La collection repose sur des critères.
+Elle peut donc évoluer lorsque de nouveaux documents satisfont les critères.
+Conceptuellement :
+Critères
+   ↓
+Recherche enregistrée
+   ↓
+Nouveaux documents correspondants
+   ↓
+Collection mise à jour
+Cette logique constitue également un point d'entrée naturel vers la Veille.
+
+13. STATUT DE TRAVAIL DES DOCUMENTS
+Les documents peuvent disposer d'un état de gestion :
+À lire
+En cours
+Lu
+Important
+À revoir
+Archivé
+Ces statuts ne doivent pas être confondus avec les métadonnées bibliographiques.
+Par exemple :
+Titre
+Auteur
+DOI
+Date
+décrivent le document.
+Alors que :
+À lire
+Important
+décrivent son état dans le contexte de l'utilisateur.
+
+14. OBJET DOCUMENTAIRE CANONIQUE
+Le système doit représenter un document comme une entité canonique indépendante des sources qui l'ont fourni.
+Exemple :
+ARTICLE CANONIQUE
+        │
+        ├── PubMed
+        ├── Europe PMC
+        ├── OpenAlex
+        ├── Crossref
+        ├── Semantic Scholar
+        ├── Repository
+        └── Éditeur
+Ces occurrences doivent être rattachées à la même publication lorsqu'il s'agit effectivement du même travail.
+
+15. IDENTIFIANTS EXTERNES
+Une publication peut disposer de plusieurs identifiants :
+DOI
+PMID
+PMCID
+OpenAlex ID
+Semantic Scholar paperId
+ISBN
+ISSN
+identifiant de repository
+Le DOI est fortement utile mais ne doit pas être considéré comme obligatoire.
+L'identification canonique doit pouvoir s'appuyer sur plusieurs éléments.
+
+16. DÉDUPLICATION
+La déduplication est une fonction structurante.
+Exemple :
+PubMed      → Article A
+OpenAlex    → Article A
+Crossref    → Article A
+Résultat :
+Article A
+et non :
+Article A
+Article A
+Article A
+Les critères d'identification peuvent notamment inclure :
+DOI
+PMID
+PMCID
+autres identifiants
+titre
+auteurs
+date
+La correspondance certaine doit être séparée d'une simple proximité textuelle ou sémantique.
+Le système ne doit jamais fusionner arbitrairement deux publications uniquement parce qu'elles sont similaires.
+
+17. NORMALISATION DES DONNÉES
+Les résultats provenant des sources externes doivent être normalisés dans un modèle commun.
+Le modèle doit pouvoir représenter notamment :
+Titre
+Auteurs
+Date
+Journal
+Type
+Résumé
+Mots-clés
+Identifiants
+Affiliations
+Institution
+Licence
+Sources
+Liens
+Informations d'accès
+Relations
+Citations lorsque disponibles
+Les informations spécifiques à chaque source ne doivent toutefois pas être perdues inutilement.
+
+18. PROVENANCE DES MÉTADONNÉES
+Pour les informations importantes, OLS doit pouvoir conserver :
+Valeur
+Source
+Date de récupération
+Exemple :
+Licence : CC BY
+Source  : Crossref
+Récupéré : 07/09/2026
+La provenance est particulièrement importante lorsqu'une information peut changer.
+
+19. ENRICHISSEMENT MULTISOURCE
+Une publication peut être enrichie progressivement par plusieurs sources.
+Par exemple :
+Crossref
+    → DOI / métadonnées / licence
+
+Europe PMC
+    → abstract / références / citations / liens full text
+
+OpenAlex
+    → institutions / sujets / citations / relations
+
+Semantic Scholar
+    → relations / recommandations
+Le système doit enrichir un document sans perdre l'origine des informations.
+
+20. SOURCES À INTÉGRER OU À ÉTUDIER
+Le périmètre doit être extensible.
+Les premières sources identifiées sont :
+PubMed / NCBI
+Europe PMC
+OpenAlex
+Crossref
+Semantic Scholar
+DOAJ
+CORE
+repositories
+autres sources Open Access pertinentes
+Le périmètre exact dépend des :
+API disponibles
+limites techniques
+licences
+conditions d'utilisation
+droits de réutilisation
+
+21. ARCHITECTURE DE RECHERCHE FÉDÉRÉE
+La recherche doit suivre conceptuellement :
+REQUÊTE UTILISATEUR
+        ↓
+MODÈLE DE REQUÊTE OLS
+        ↓
+ANALYSE DES CAPACITÉS DES SOURCES
+        ↓
+ADAPTATION DE LA REQUÊTE
+        ↓
+┌────────┬─────────┬──────────┬───────────┐
+PubMed  EuropePMC OpenAlex  Crossref ...
+        ↓
+NORMALISATION
+        ↓
+DÉDUPLICATION
+        ↓
+REGROUPEMENT
+        ↓
+RÉSULTATS OLS
+L'objectif est de ne jamais supposer que toutes les sources fonctionnent de la même manière.
+
+22. MODÈLE ABSTRAIT DE REQUÊTE OLS
+La recherche doit être représentée par des composants indépendants.
+Exemples :
+Sujet
+Auteur
+Journal
+Institution
+Date
+Type
+Open Access
+Mots-clés
+Exclusions
+Une recherche plus complexe peut alors être représentée conceptuellement comme :
+Sujet = CRISPR
+ET
+Type = Review
+ET
+Date ≥ 2024
+ET
+Open Access = Oui
+Cette représentation est indépendante de la syntaxe native de chaque API.
+
+23. CAPACITÉS DES CONNECTEURS
+Chaque source doit exposer ou déclarer ses capacités.
+Exemple :
+Boolean
+Phrase search
+Title
+Abstract
+Author
+Date
+Journal
+Institution
+Open Access
+Citations
+Semantic search
+Le connecteur doit donc savoir :
+ce qu'il sait rechercher
+ce qu'il sait filtrer
+ce qu'il sait trier
+ce qu'il ne sait pas faire
+Cela permet à OLS d'adapter intelligemment ses requêtes.
+
+24. GESTION DES CAPACITÉS PARTIELLES
+Une requête OLS peut être plus riche que ce que supporte une source.
+Exemple :
+OLS :
+A AND B AND NOT C
+Source A :
+support complet
+→ requête complète.
+Source B :
+support partiel
+→ seules les composantes compatibles peuvent être exécutées, avec éventuellement un traitement complémentaire lorsqu'il dispose des données suffisantes.
+OLS ne doit jamais prétendre à une équivalence parfaite lorsqu'elle n'existe pas.
+
+25. RECHERCHE BOOLÉENNE
+L'utilisateur doit pouvoir construire au minimum :
+A AND B
+A OR B
+A AND NOT C
+La représentation interne doit rester indépendante de la syntaxe PubMed ou d'une autre source.
+Le moteur doit traduire cette logique vers les capacités de chaque connecteur.
+
+26. RECHERCHE LEXICALE
+Recherche de termes textuels dans les champs disponibles.
+Exemples :
+titre
+abstract
+auteur
+journal
+mots-clés
+Elle doit supporter les recherches exactes ou textuelles selon les capacités de la source.
+
+27. RECHERCHE STRUCTURÉE
+La recherche doit pouvoir être construite à partir de critères :
+Auteur
+Date
+Journal
+Type
+Open Access
+Institution
+Cette logique doit pouvoir être combinée à la recherche textuelle.
+
+28. RECHERCHE SÉMANTIQUE
+La recherche sémantique doit permettre d'identifier des publications correspondant au sens de la demande et pas uniquement à la présence exacte de termes.
+Exemple :
+Recherche :
+mécanismes moléculaires de résistance
+aux antibiotiques chez Pseudomonas aeruginosa
+La pertinence peut alors dépasser la correspondance exacte des mots.
+La capacité dépend cependant des sources qui proposent réellement ce type de recherche.
+
+29. RECHERCHE HYBRIDE
+OLS doit pouvoir combiner :
+recherche lexicale
++
+critères structurés
++
+recherche sémantique
+Exemple :
+Coronavirus
++
+Vaccin
++
+2022–2026
++
+Open Access
++
+similarité sémantique autour de l'immunité
+L'interface doit rendre cette puissance compréhensible.
+
+30. AUTOCOMPLÉTION
+La recherche peut proposer dynamiquement :
+Auteurs
+Journaux
+Termes
+Organismes
+Institutions
+Sujets
+Les suggestions doivent dépendre des données effectivement disponibles.
+Elles ne doivent pas donner l'impression que tous les termes sont supportés partout.
+
+31. TRI DES RÉSULTATS
+Les résultats doivent pouvoir être triés notamment par :
+Pertinence
+Date
+Citations
+ainsi que par d'autres critères lorsqu'ils sont disponibles.
+Le tri doit être cohérent avec les capacités des sources interrogées.
+
+32. PERFORMANCE DE RECHERCHE
+La recherche fédérée étant dépendante de plusieurs services externes, le fonctionnement doit être conçu de manière à éviter une attente globale inutile.
+Le système doit privilégier une logique de recherche progressive :
+Source A répond
+    ↓
+résultats affichables
+
+Source B répond
+    ↓
+résultats enrichis
+
+Source C répond
+    ↓
+résultats complémentaires
+La consultation ne doit pas être inutilement bloquée par la source la plus lente.
+Les résultats doivent être normalisés et dédupliqués au fur et à mesure de leur arrivée lorsque cela est possible.
+
+33. RÉSULTATS DE RECHERCHE
+Chaque résultat doit permettre de comprendre rapidement :
+Titre
+Auteurs
+Journal
+Date
+Type
+Accès
+Identifiant principal
+et fournir les actions pertinentes.
+L'utilisateur doit également pouvoir savoir que la publication a été identifiée dans plusieurs sources, sans recevoir plusieurs copies du même document.
+
+34. RELATIONS ENTRE VERSIONS ET PUBLICATIONS
+OLS doit pouvoir représenter les relations documentaires telles que :
+Preprint
+   ↓
+Publication finale
+et :
+Publication
+   ↓
+Correction
+ou d'autres relations post-publication lorsqu'elles sont disponibles.
+
+35. CONSULTATION D'UNE PUBLICATION
+La fiche documentaire doit pouvoir afficher :
+Titre
+Auteurs
+Journal / Source
+Date
+DOI
+Identifiants
+Résumé
+Mots-clés
+Type
+Informations d'accès
+ainsi que les liens disponibles.
+La présentation doit rester claire et lisible.
+
+36. ACTIONS PRINCIPALES SUR UNE PUBLICATION
+Les actions fondamentales sont :
+Lire
+Archiver
+Télécharger
+Ajouter au dossier
+Ajouter un tag
+Certaines actions peuvent être proposées uniquement lorsqu'elles sont pertinentes.
+
+37. ACTION « LIRE »
+Lire signifie accéder à une ressource disponible.
+Par exemple :
+Lire sur PubMed
+Lire sur l'éditeur
+Lire sur le repository
+Lire le texte intégral Open Access
+OLS doit privilégier le lien vers la source appropriée plutôt que de republier arbitrairement le contenu.
+
+38. ACTION « ARCHIVER »
+Archiver signifie :
+conserver la référence dans la bibliothèque.
+L'archivage ne nécessite pas obligatoirement un PDF.
+Une publication peut donc être archivée même si seul son enregistrement bibliographique est disponible.
+
+39. ACTION « TÉLÉCHARGER »
+Télécharger signifie récupérer une copie locale lorsqu'une copie effectivement téléchargeable est disponible et que son utilisation est autorisée.
+L'existence d'une référence ne doit jamais être interprétée automatiquement comme une autorisation de téléchargement.
+
+40. ÉTATS D'ACCÈS
+Un document peut disposer de différents états :
+Accès ouvert
+Texte intégral accessible
+Preprint disponible
+Accès via éditeur
+Métadonnées seulement
+Le système ne doit pas réduire artificiellement la situation à « gratuit » ou « payant ».
+
+41. SÉPARATION DES NIVEAUX DE CONTENU
+Le module doit distinguer strictement :
+MÉTADONNÉE
+LIEN VERS LE CONTENU
+CONTENU INTÉGRAL
+COPIE LOCALE
+Ces quatre niveaux possèdent des implications différentes.
+
+42. CONTRAINTES DE LICENCE ET DE DROITS
+Les règles d'accès au contenu doivent être évaluées source par source.
+Le système doit notamment éviter de déduire :
+Open Access
+=
+tout contenu librement redistribuable
+De même :
+document accessible
+≠
+document que l'on peut nécessairement stocker ou redistribuer
+Cette distinction doit être intégrée à la conception du module.
+
+43. BIBLIOTHÈQUE ET RECHERCHE : PASSAGE NATUREL
+Les espaces ne doivent pas fonctionner comme des silos.
+Exemple :
+Recherche
+   ↓
+Article
+   ↓
+Archiver
+   ↓
+Bibliothèque
+   ↓
+Surveiller
+   ↓
+Veille
+Autre exemple :
+Bibliothèque
+   ↓
+Article
+   ↓
+Recherche similaire
+   ↓
+Nouveaux résultats
+
+44. STATISTIQUES — PRINCIPE GÉNÉRAL
+Les statistiques doivent être calculées dynamiquement à partir des données actuellement affichées.
+Règle :
+Les statistiques correspondent exactement au contexte courant, aux résultats courants et aux filtres courants.
+Il ne doit pas exister de deuxième sélection cachée.
+
+45. STATISTIQUES DE LA RECHERCHE
+Exemple :
+Recherche :
+coronavirus
+Filtres :
+2020–2026
+Open Access
+Review
+Les statistiques portent sur les résultats correspondant à cette recherche et à ces filtres.
+Si un nouveau filtre est ajouté :
+2020–2026
++
+Open Access
++
+Review
++
+Auteur X
+les statistiques doivent s'adapter immédiatement.
+
+46. STATISTIQUES DE LA BIBLIOTHÈQUE
+La même logique s'applique à la bibliothèque.
+Exemple :
+Bibliothèque du laboratoire
+→ CRISPR
+→ >2020
+Les statistiques représentent uniquement le contexte documentaire actuellement consulté.
+
+47. MINIMAP STATISTIQUE
+La statistique doit être présentée sous la forme d'une minimap statistique.
+Elle doit être :
+compacte
+discrète
+rétractable
+agrandissable
+redimensionnable
+déplaçable
+non bloquante
+Elle ne doit jamais empêcher l'accès normal aux résultats ou aux documents.
+
+48. ÉTATS DE LA MINIMAP
+Au minimum :
+Rétractée
+[ Stats ]
+Compacte
+┌───────────────┐
+│ Publications  │
+│ 2020 ███      │
+│ 2021 █████    │
+│ 2022 ███████  │
+└───────────────┘
+Agrandie
+Présentation graphique détaillée.
+Fermée
+Elle disparaît de l'espace principal tout en restant réactivable.
+
+49. DIMENSIONS STATISTIQUES
+Les statistiques peuvent porter notamment sur :
+publications / année
+publications / mois
+auteurs
+journaux
+institutions
+pays
+types de documents
+tags
+Open Access
+D'autres dimensions peuvent être ajoutées selon les données disponibles.
+
+50. SÉLECTION DU TYPE DE GRAPHIQUE
+Le type de représentation doit être adapté à la donnée.
+Évolution temporelle
+courbe
+histogramme
+Peu de catégories
+donut
+camembert
+Nombre élevé de catégories
+barres triées
+Comparaison
+barres
+Un même type de graphique ne doit pas être imposé à toutes les données.
+
+51. MODE AUTOMATIQUE
+Un mode :
+Automatique
+peut sélectionner une représentation adaptée.
+L'utilisateur doit néanmoins pouvoir choisir une autre représentation lorsque plusieurs formes sont pertinentes.
+
+52. INTERACTION STATISTIQUE
+Le graphique doit être interactif.
+Exemple :
+2024 █████████
+Clic sur :
+2024
+→ filtrage ou sélection des publications correspondant à 2024.
+Ainsi :
+Graphique
+   ↓
+Sélection
+   ↓
+Liste
+
+53. RELATION BIDIRECTIONNELLE LISTE ↔ STATISTIQUES
+La relation doit être bidirectionnelle :
+Liste
+  ↕
+Statistiques
+Une sélection dans la liste peut influencer la statistique dans les contextes où un mode de sélection manuelle est utilisé.
+Une sélection dans le graphique peut filtrer ou sélectionner la liste.
+Cette interaction devra rester simple afin de ne pas créer de logique d'interface excessive.
+
+54. GESTION DES DONNÉES MANQUANTES
+Les données manquantes ne doivent pas être silencieusement éliminées.
+Le système doit pouvoir représenter :
+Inconnu
+Non renseigné
+lorsqu'une dimension statistique n'est pas disponible.
+
+55. VEILLE — OBJECTIF
+La Veille permet de transformer une recherche, un document ou un autre objet scientifique en un élément surveillé dans le temps.
+Elle doit aller au-delà d'une simple alerte :
+« 14 nouveaux articles. »
+Elle doit rechercher une nouveauté pertinente et contextualisée.
+
+56. TYPES DE VEILLE
+Le module doit pouvoir gérer au minimum :
+Veille par requête
+Veille par thématique
+Veille par article
+Veille par auteur
+Veille par journal
+Veille par institution
+Veille basée sur une bibliothèque / collection
+
+57. VEILLE PERSONNELLE
+Une veille personnelle appartient à l'utilisateur.
+Exemple :
+Mes veilles
+
+CRISPR
+Single-cell
+Cancer
+Elle peut être basée sur ses recherches ou ses intérêts.
+
+58. VEILLE DU LABORATOIRE
+Une veille de laboratoire est partagée entre les membres autorisés.
+Exemple :
+Veilles du laboratoire
+
+Antibiotic resistance
+Microbiome
+Diagnostics
+Elle doit disposer de règles d'accès adaptées.
+
+59. DISTINCTION PERSONNELLE / LABORATOIRE
+Ces espaces doivent rester clairement séparés.
+L'utilisateur doit distinguer :
+ce que je surveille
+de :
+ce que mon équipe surveille
+Une veille personnelle ne doit pas automatiquement devenir une veille collective.
+
+60. PARTAGE CONTRÔLÉ D'UNE VEILLE
+Une veille personnelle peut éventuellement être partagée avec le laboratoire :
+Veille personnelle
+        ↓
+Partager
+        ↓
+Laboratoire
+sans que cette opération implique obligatoirement un transfert de propriété.
+Les règles détaillées de collaboration doivent être rattachées au futur système de collaboration.
+
+61. VEILLE MULTISOURCE
+Une veille peut exploiter plusieurs sources simultanément :
+PubMed
+Europe PMC
+OpenAlex
+Crossref
+Semantic Scholar
+repositories
+preprints
+Flux :
+Sources
+   ↓
+Normalisation
+   ↓
+Déduplication
+   ↓
+Pertinence
+   ↓
+Notification
+
+62. ANTI-DUPLICATION DES ALERTES
+Un même article trouvé dans plusieurs sources doit générer une seule découverte.
+Exemple :
+PubMed      → Article A
+OpenAlex    → Article A
+Crossref    → Article A
+Résultat :
+1 découverte
+Les différentes sources restent néanmoins associées au document.
+
+63. VEILLE PAR REQUÊTE
+Une recherche sauvegardée peut devenir une veille.
+Flux :
+Créer recherche
+      ↓
+Sauvegarder
+      ↓
+Activer la veille
+      ↓
+Surveillance dans le temps
+La recherche devient donc un objet dynamique.
+
+64. VEILLE PAR ARTICLE
+Pour un article donné :
+Surveiller cet article
+Le système peut surveiller :
+nouvelles citations
+articles similaires
+publication finale
+nouvelle version
+correction
+rétractation
+mise à jour
+
+65. VEILLE DES CITATIONS
+Le système doit distinguer :
+Nouveaux articles citant l'article
+de :
+Nouveaux articles similaires
+Ce sont deux signaux scientifiques différents.
+
+66. VEILLE PAR SIMILARITÉ
+Le système peut rechercher de nouveaux travaux proches d'un article.
+Concept :
+Article A
+    ↓
+nouveaux travaux proches
+La proximité peut reposer sur les mécanismes réellement disponibles auprès des sources.
+
+67. VEILLE DES PREPRINTS
+Le système doit pouvoir détecter une relation :
+Preprint
+    ↓
+Publication finale
+lorsqu'une telle relation peut être établie suffisamment sûrement.
+
+68. VEILLE POST-PUBLICATION
+Une publication déjà archivée peut changer après sa publication.
+La veille doit pouvoir suivre :
+Correction
+Rétractation
+Update
+Expression of concern
+Cela permet de surveiller non seulement ce qui est nouveau, mais également ce qui a changé.
+
+69. ÉVÉNEMENTS DE VEILLE
+Le modèle général devient :
+Nouveaux documents
+        +
+Documents déjà connus ayant changé
+Les événements doivent conserver leur nature.
+Exemple :
+NEW_PUBLICATION
+NEW_CITATION
+SIMILAR_WORK
+PREPRINT_PUBLISHED
+CORRECTION
+RETRACTION
+UPDATE
+Les noms ci-dessus constituent un modèle conceptuel ; le vocabulaire définitif pourra être figé dans la spécification d'implémentation.
+
+70. VEILLE PAR THÉMATIQUE
+Une veille thématique peut combiner plusieurs signaux :
+mots-clés
+similarité sémantique
+auteurs
+journaux
+citations
+bibliothèque existante
+Exemple :
+CRISPR diagnostics
+
+71. VEILLE BASÉE SUR UNE COLLECTION
+Une collection de bibliothèque peut devenir la base d'une veille explicite.
+Exemple :
+Collection :
+CRISPR diagnostics
+
+Action :
+Surveiller cette thématique
+Le déclenchement doit rester explicite.
+Une collection ne doit pas automatiquement devenir une veille.
+
+72. VEILLE PAR INTENTION
+À terme, l'utilisateur pourrait exprimer une intention sous forme naturelle :
+« Surveiller les nouveaux travaux concernant les mécanismes moléculaires de résistance aux antibiotiques chez Pseudomonas aeruginosa, hors études purement cliniques. »
+Le système pourrait transformer cette intention en critères de recherche.
+Cette capacité doit cependant rester contrôlable et ne jamais devenir une boîte noire.
+
+73. SCORE DE PERTINENCE
+Une découverte peut recevoir :
+Très pertinent
+Pertinent
+Faible correspondance
+ou un score.
+Le niveau de pertinence doit pouvoir être justifié.
+
+74. EXPLICABILITÉ D'UNE ALERTE
+Une publication signalée doit pouvoir être expliquée simplement.
+Exemple :
+Correspond à votre recherche
+Sujet sémantiquement proche
+Auteur suivi
+Publication récente
+L'objectif est de rendre l'alerte compréhensible sans surcharger l'interface.
+
+75. VEILLE PAR RAPPORT À LA BIBLIOTHÈQUE EXISTANTE
+Le système peut rechercher de nouvelles publications proches des documents déjà conservés.
+Exemple :
+Nouveau travail proche de votre collection CRISPR.
+Il ne s'agit pas d'affirmer que le document est meilleur.
+Le signal indique uniquement une proximité avec le corpus déjà suivi.
+
+76. RATTRAPAGE DE DOCUMENTS ANCIENS
+La veille peut également détecter un article plus ancien qui n'est pas nouveau mais qui présente une forte proximité avec une collection.
+Exemple :
+Cet article de 2023 ressemble fortement aux documents actuellement suivis.
+Cette fonction permet de réduire le risque de manquer une référence historique ou antérieure à la création de la veille.
+
+77. VEILLE SILENCIEUSE
+Une veille peut fonctionner sans notification immédiate.
+Elle accumule :
+nouvelles découvertes
+qui seront consultables ultérieurement.
+
+78. DIGESTS
+Une veille peut produire un regroupement périodique.
+Exemple :
+Veille hebdomadaire
+
+17 nouvelles publications
+
+4 très pertinentes
+7 pertinentes
+6 faibles correspondances
+D'autres informations peuvent être présentées selon le besoin.
+Toute synthèse générée doit rester reliée aux documents sources.
+
+79. HISTORIQUE DES EXÉCUTIONS DE VEILLE
+Chaque exécution doit pouvoir laisser une trace.
+Exemple :
+07/09
+12 nouveautés
+
+14/09
+8 nouveautés
+
+21/09
+3 nouveautés
+L'utilisateur doit pouvoir consulter les résultats antérieurs d'une veille.
+
+80. SURVEILLANCE INCRÉMENTALE
+Lorsque la source le permet, le système doit privilégier :
+Dernière vérification
+        ↓
+Nouveaux éléments
++
+Éléments modifiés
+        ↓
+Déduplication
+        ↓
+Pertinence
+        ↓
+Notification
+Il faut éviter de retraiter inutilement l'intégralité du corpus à chaque exécution.
+
+81. ANTI-RÉPÉTITION
+Un document déjà signalé ne doit pas être signalé à nouveau sans nouvel événement.
+Exceptions possibles :
+Nouvelle version
+Correction
+Rétractation
+Nouvelle relation
+Changement significatif
+
+82. STATUT DES VEILLES
+Une veille doit conceptuellement pouvoir être :
+active
+suspendue
+silencieuse
+Le détail des statuts d'implémentation pourra être précisé ultérieurement.
+
+83. NOTIFICATIONS
+Les notifications doivent éviter la fatigue informationnelle.
+Une veille peut fonctionner selon différents modes :
+immédiat
+regroupé
+périodique
+silencieux
+Le choix exact des fréquences devra être défini dans la spécification de notification globale d'OLS.
+
+84. STATISTIQUES ET VEILLE
+Le principe général retenu est que la vue statistique doit rester contextuelle.
+Une veille peut donc disposer de données statistiques lorsqu'elle constitue elle-même le contexte consulté.
+Exemple :
+Veille CRISPR
+↓
+Nouveautés sur 30 jours
+↓
+Répartition par :
+année
+journal
+auteur
+type
+Cela reste une visualisation des données du contexte courant, pas la création d'un espace « Analyse ».
+
+85. EXPLORATION DES JOURNAUX
+L'utilisateur doit pouvoir identifier quels journaux apparaissent dans un corpus.
+Exemple :
+Quels journaux publient le plus sur ce sujet ?
+Cela peut ensuite devenir une dimension de recherche ou de veille.
+
+86. EXPLORATION DES AUTEURS
+Même principe pour les auteurs :
+Quels auteurs apparaissent le plus ?
+ou :
+Quel auteur est associé à cette thématique ?
+
+87. EXPLORATION DES INSTITUTIONS
+Même logique :
+Laboratoire
+Université
+Institut
+permettant de comprendre quelles institutions apparaissent dans un corpus.
+
+88. STATISTIQUES TEMPORELLES
+La statistique temporelle doit pouvoir représenter par exemple :
+1999
+████
+
+2005
+██████
+
+2015
+████████
+
+2025
+████████████████
+Elle permet d'observer l'évolution du volume documentaire.
+
+89. FORMES DE STATISTIQUES TEMPORELLES
+Selon le besoin :
+articles / année
+articles cumulés
+articles / mois
+peuvent être représentés.
+
+90. STATISTIQUES PAR AUTEUR
+Exemple :
+Auteur A ███████████
+Auteur B ████████
+Auteur C █████
+
+91. STATISTIQUES PAR JOURNAL
+Exemple :
+Journal A ██████████
+Journal B ███████
+Journal C ████
+
+92. STATISTIQUES PAR TYPE DE DOCUMENT
+Exemple :
+Article      72 %
+Review       18 %
+Preprint      7 %
+Autre         3 %
+Un donut peut être adapté lorsque le nombre de catégories est suffisamment limité.
+
+93. STATISTIQUES PAR ACCÈS
+Exemple :
+Open Access
+Repository
+Éditeur
+Non déterminé
+La signification exacte des catégories dépend des informations disponibles et ne doit pas simplifier abusivement la réalité des droits.
+
+94. DONNÉES MANQUANTES DANS LES STATISTIQUES
+Lorsqu'une publication ne possède pas une information donnée :
+Auteur = connu
+Journal = connu
+Institution = inconnu
+le document ne doit pas être supprimé du calcul sans raison.
+Le système doit pouvoir représenter le groupe :
+Inconnu
+ou :
+Non renseigné
+
+95. COLLABORATION À TERME
+La collaboration au sein d'un laboratoire peut évoluer avec les mécanismes de partage généraux d'OLS.
+La collaboration entre plusieurs laboratoires doit être conçue comme une évolution future dans un espace de collaboration dédié.
+Ce futur espace pourrait gérer :
+partage de données
+documents
+fichiers
+sessions
+espaces communs
+modules partagés
+droits inter-organisations
+Le module Bibliographie pourra fournir des contenus à cet environnement.
+
+96. VEILLE INTER-LABORATOIRES — FUTURE
+Une veille pourrait à terme être partagée entre plusieurs organisations :
+Laboratoire A
+      │
+      ▼
+Veille commune
+      ▲
+      │
+Laboratoire B
+Mais cela nécessite :
+permissions
+propriété
+confidentialité
+administration
+partage sélectif
+Cette fonctionnalité ne doit pas être artificiellement mélangée avec la première version du module.
+
+97. MODÈLE CONCEPTUEL GLOBAL D'UN DOCUMENT
+                        DOCUMENT SCIENTIFIQUE
+                                  │
+               ┌──────────────────┼──────────────────┐
+               │                  │                  │
+               ▼                  ▼                  ▼
+        IDENTITÉ CANONIQUE   MÉTADONNÉES        RELATIONS
+               │                  │                  │
+               │                  │           ┌──────┴──────┐
+               │                  │           ▼             ▼
+               │                  │       PREPRINT      CORRECTION
+               │                  │           │
+               │                  │           ▼
+               │                  │     PUBLICATION
+               │                  │
+               ▼                  ▼
+        IDENTIFIANTS          PROVENANCE
+        DOI / PMID            SOURCES
+        PMCID / etc.          DATES
+               │
+               ▼
+        CONTEXTES OLS
+          ┌────┴────┐
+          ▼         ▼
+     PERSONNEL   LABORATOIRE
+
+98. RELATION ENTRE DOCUMENT ET BIBLIOTHÈQUES
+                   DOCUMENT A
+                         │
+            ┌────────────┴────────────┐
+            ▼                         ▼
+ Bibliothèque personnelle     Bibliothèque laboratoire
+            │                         │
+      dossiers perso            dossiers communs
+      tags perso                tags communs
+      notes perso               notes communes
+      statut perso              statut partagé
+Une seule identité documentaire peut donc avoir plusieurs contextes d'utilisation.
+
+99. RELATION GLOBALE DU MODULE
+                        BIBLIOGRAPHIE
+                              │
+                              ▼
+                         STATISTIQUES
+                           ╱       ╲
+                          ╱         ╲
+                         ▼           ▼
+                 BIBLIOTHÈQUE     RECHERCHE
+                  ╱          ╲    ╱        ╲
+                 ▼            ▼  ▼          ▼
+           PERSONNELLE    LABORATOIRE   FÉDÉRÉE
+                                              │
+                                      ┌───────┼────────┐
+                                      ▼       ▼        ▼
+                                   LEXICALE STRUCT. SÉMANTIQUE
+                                              │
+                                              ▼
+                                           RÉSULTATS
+                                              │
+                              ┌───────────────┴──────────────┐
+                              ▼                              ▼
+                         BIBLIOTHÈQUE                      VEILLE
+                                                              │
+                                            ┌─────────────────┼─────────────────┐
+                                            ▼                 ▼                 ▼
+                                         NOUVEAUTÉS       CITATIONS       CHANGEMENTS
+Le schéma fonctionnel à retenir reste toutefois :
+Bibliographie
+   │
+   └──► Statistiques
+           ├──► Bibliothèque
+           └──► Recherche
+
+Bibliothèque ─────► Veille
+Recherche ────────► Veille
+
+100. PARCOURS UTILISATEUR STANDARD
+Découverte
+Recherche
+↓
+Requête
+↓
+Sources
+↓
+Résultats
+Consultation
+Résultat
+↓
+Publication
+↓
+Résumé / métadonnées
+↓
+Lire
+Archivage
+Publication
+↓
+Archiver
+↓
+Bibliothèque personnelle
+ou
+Bibliothèque laboratoire
+Organisation
+Document
+↓
+Dossier
++
+Tags
++
+Statut
+Suivi
+Document
+↓
+Surveiller
+↓
+Veille
+
+101. PARCOURS RECHERCHE → VEILLE
+Créer une recherche
+        ↓
+Obtenir les résultats
+        ↓
+Appliquer les filtres
+        ↓
+Observer éventuellement les statistiques
+        ↓
+Sauvegarder la recherche
+        ↓
+Activer la veille
+        ↓
+OLS surveille
+        ↓
+Nouveaux événements
+
+102. PARCOURS RECHERCHE → BIBLIOTHÈQUE
+Recherche
+   ↓
+Article
+   ↓
+Archiver
+   ↓
+Choix du contexte
+   ├── Personnel
+   └── Laboratoire
+
+103. PARCOURS BIBLIOTHÈQUE → RECHERCHE
+Bibliothèque
+   ↓
+Article
+   ↓
+Recherche similaire
+   ↓
+Résultats complémentaires
+
+104. PARCOURS BIBLIOTHÈQUE → VEILLE
+Bibliothèque
+   ↓
+Collection
+   ↓
+Surveiller
+   ↓
+Veille
+ou :
+Bibliothèque
+   ↓
+Article
+   ↓
+Surveiller cet article
+
+105. PARCOURS VEILLE → BIBLIOTHÈQUE
+Veille
+   ↓
+Nouvelle publication
+   ↓
+Consulter
+   ↓
+Archiver
+   ↓
+Bibliothèque
+La circulation entre espaces doit rester naturelle.
+
+106. PERFORMANCE FONCTIONNELLE
+Le module doit être conçu pour rester réactif malgré :
+plusieurs sources
+grand nombre de résultats
+déduplication
+enrichissement
+calcul statistique
+veilles multiples
+Les fonctions coûteuses ne doivent pas bloquer inutilement l'interface principale.
+La recherche fédérée doit notamment pouvoir fonctionner progressivement.
+
+107. COHÉRENCE DES RÉSULTATS
+Le traitement des résultats doit respecter :
+Recherche
+   ↓
+Normalisation
+   ↓
+Identification
+   ↓
+Déduplication
+   ↓
+Fusion / enrichissement
+   ↓
+Affichage
+La même logique documentaire doit être réutilisée pour :
+Recherche
+Bibliothèque
+Veille
+afin d'éviter des identifications contradictoires.
+
+108. RÈGLES DE DÉDUPLICATION
+La logique de déduplication doit distinguer :
+Correspondance certaine
+Exemple :
+Même DOI
+ou autre identifiant certain.
+Correspondance forte
+Plusieurs critères concordants :
+titre
+auteurs
+date
+journal
+Similarité
+Documents proches mais potentiellement différents.
+La similarité ne doit pas être interprétée automatiquement comme identité.
+
+109. RÈGLES DE PROVENANCE
+Lorsqu'une donnée possède plusieurs sources :
+Valeur
+├── Source A
+├── Source B
+└── Source C
+le système doit conserver suffisamment d'information pour savoir d'où elle provient.
+Il doit éviter qu'une mise à jour écrase silencieusement une information importante provenant d'une autre source.
+
+110. RÈGLES DE LICENCE
+Le système doit toujours séparer :
+identifier
+de :
+lire
+de :
+télécharger
+de :
+stocker localement
+de :
+redistribuer
+Chaque opération est soumise à des conditions potentiellement différentes.
+
+111. EXTENSIBILITÉ DES SOURCES
+Le modèle ne doit pas être construit autour d'un nombre fixe de sources.
+Le principe est :
+Nouveau connecteur
+      ↓
+Déclaration de ses capacités
+      ↓
+Adaptation du modèle de requête
+      ↓
+Normalisation
+      ↓
+Déduplication
+Ainsi, l'ajout d'une source ne doit pas nécessiter de redéfinir tout le module.
+
+112. EXTENSIBILITÉ DES DIMENSIONS STATISTIQUES
+Le système doit également éviter de figer les statistiques à :
+année
+auteur
+journal
+De nouvelles dimensions pourront apparaître selon les données disponibles.
+Le moteur statistique doit rester générique.
+
+113. EXTENSIBILITÉ DE LA VEILLE
+De même, le concept de Veille doit pouvoir évoluer vers :
+nouveautés
+citations
+similarité
+préprints
+corrections
+rétractations
+tendances
+relations
+sans remettre en cause les objets fondamentaux déjà définis.
+
+114. TRAÇABILITÉ
+Les éléments importants du système doivent pouvoir être rattachés à :
+source
+date de collecte
+document canonique
+événement
+contexte
+Cette traçabilité est particulièrement importante pour :
+métadonnées
+déduplication
+veille
+rétractations
+corrections
+
+115. HISTORIQUE DES VEILLES
+Le système doit permettre de répondre à :
+Quand la veille a-t-elle été exécutée ?
+Combien de nouveautés ont été détectées ?
+Quels documents ont été signalés ?
+Pourquoi ?
+Les résultats historiques doivent rester consultables.
+
+116. DÉTECTION DES CHANGEMENTS
+Une veille de document doit distinguer :
+aucun changement
+de :
+nouvelle citation
+de :
+correction
+de :
+rétractation
+de :
+nouvelle version
+La nature de l'événement doit être conservée.
+
+117. BIBLIOTHÈQUE COMME CORPUS SCIENTIFIQUE
+La bibliothèque peut également servir de corpus d'exploration.
+Cela permet :
+Corpus conservé
+   ↓
+Statistiques
+   ↓
+Exploration
+   ↓
+Nouvelle recherche
+   ↓
+Nouvelle veille
+Cela reste toutefois une circulation fonctionnelle et non une obligation de parcours.
+
+118. POSITIONNEMENT VIS-À-VIS DES OUTILS EXISTANTS
+Le module doit s'inspirer des forces de différents outils sans chercher à devenir une copie de chacun.
+Zotero
+→ organisation documentaire
+
+PubMed
+→ recherche biomédicale avancée
+
+OpenAlex
+→ graphe et exploration bibliographique
+
+Crossref
+→ métadonnées DOI / relations
+
+Europe PMC
+→ littérature sciences de la vie
+
+Semantic Scholar
+→ recherche / recommandations
+
+Litmaps
+→ exploration / monitoring
+
+ResearchRabbit
+→ découverte / relations
+
+Scite
+→ contexte des citations
+Le résultat recherché est leur cohérence au sein d'OLS, pas leur juxtaposition.
+
+119. DIFFÉRENCIATION STRATÉGIQUE
+La simple présence d'une alerte n'est pas suffisante pour différencier OLS.
+La valeur ajoutée recherchée est la combinaison :
+RECHERCHE FÉDÉRÉE
+        +
+IDENTITÉ CANONIQUE
+        +
+DÉDUPLICATION
+        +
+BIBLIOTHÈQUE
+        +
+STATISTIQUES CONTEXTUELLES
+        +
+VEILLE MULTISOURCE
+        +
+SUIVI TEMPOREL
+        +
+CITATIONS
+        +
+SIMILARITÉ
+        +
+PREPRINT → PUBLICATION
+        +
+CORRECTIONS / RÉTRACTATIONS
+
+120. EXIGENCES DE COHÉRENCE UI
+La Bibliothèque doit rester visuellement simple.
+La Recherche peut être plus dense.
+Les Statistiques doivent rester discrètes.
+La Veille doit réduire le travail quotidien.
+Donc :
+Bibliothèque
+→ simple
+
+Recherche
+→ riche mais organisée
+
+Statistiques
+→ discrètes
+
+Veille
+→ automatique
+Cette répartition doit guider la conception de toutes les interfaces.
+
+121. CE QUE L'UTILISATEUR DOIT TOUJOURS COMPRENDRE
+À tout moment :
+où suis-je ?
+qu'est-ce que je regarde ?
+quelle recherche est active ?
+quels filtres sont actifs ?
+que représentent ces statistiques ?
+pourquoi cet événement de veille existe-t-il ?
+
+122. RÈGLE DE CONTEXTE DES STATISTIQUES
+Le système doit pouvoir identifier implicitement ou explicitement le contexte :
+Statistiques de :
+[Recherche en cours]
+ou :
+Statistiques de :
+[Collection CRISPR]
+afin d'éviter toute confusion.
+
+123. RÈGLE DE NON-SILOS
+Les espaces peuvent être distincts sans être isolés.
+Le système doit permettre :
+Recherche
+↔ Article
+↔ Bibliothèque
+↔ Veille
+avec des transitions naturelles.
+
+124. RÈGLE DE NON-DUPLICATION DOCUMENTAIRE
+Une même publication ne doit pas être recréée simplement parce qu'elle provient de plusieurs sources ou appartient à plusieurs collections.
+La duplication des contextes est autorisée.
+La duplication de l'identité documentaire ne l'est pas.
+
+125. RÈGLE DE NON-CONFUSION ENTRE PERSONNEL ET LABORATOIRE
+Le système doit toujours distinguer :
+Personnel
+et :
+Laboratoire
+pour :
+bibliothèques
+dossiers
+tags
+notes
+recherches sauvegardées
+veilles
+droits
+
+126. RÈGLE DE NON-CONFUSION ENTRE MÉTADONNÉES ET ÉTAT UTILISATEUR
+Exemple :
+DOI = métadonnée
+mais :
+À lire = état de travail
+Ces deux catégories ne doivent pas être fusionnées.
+
+127. RÈGLE DE NON-CONFUSION ENTRE RECHERCHE ET VEILLE
+Une recherche représente :
+un besoin d'exploration.
+Une veille représente :
+un besoin de surveillance dans le temps.
+Une recherche peut donc devenir une veille, mais ce sont deux objets fonctionnels distincts.
+
+128. RÈGLE DE NON-CONFUSION ENTRE STATISTIQUE ET ANALYSE
+Une statistique :
+représente le contexte courant
+Elle ne constitue pas :
+une étape d'analyse autonome
+Il ne doit donc pas exister de concept obligatoire :
+Résultats
+→ Analyse
+
+129. CRITÈRES FONCTIONNELS DE VALIDATION
+Le module pourra être considéré fonctionnellement conforme lorsque les situations suivantes sont couvertes.
+Recherche
+Une même recherche peut être adaptée à plusieurs sources.
+Déduplication
+Un même article provenant de trois sources n'apparaît qu'une seule fois.
+Bibliothèque
+Un article peut être ajouté à plusieurs dossiers sans duplication.
+Contexte personnel/laboratoire
+Le même article peut être personnel et collectif avec des métadonnées de contexte différentes.
+Statistiques
+Modifier un filtre modifie les statistiques correspondantes.
+Interaction statistique
+Cliquer une catégorie statistique permet d'explorer le sous-ensemble correspondant.
+Veille
+Une recherche sauvegardée peut devenir une veille.
+Veille multisource
+Le même article détecté par trois sources ne produit qu'une découverte.
+Post-publication
+Une correction ou une rétractation d'un document suivi peut être détectée lorsqu'une source fiable la fournit.
+Accès
+Un document archivé sans PDF reste parfaitement valide dans la bibliothèque.
+
+130. STRUCTURE CONCEPTUELLE FINALE
+                          BIBLIOGRAPHIE OLS
+                                  │
+                                  ▼
+                             STATISTIQUES
+                              ╱         ╲
+                             ╱           ╲
+                            ▼             ▼
+                    BIBLIOTHÈQUE       RECHERCHE
+                      │                    │
+                ┌─────┴─────┐       ┌────┼─────────────┐
+                ▼           ▼       ▼    ▼             ▼
+           PERSONNELLE   LABO   LEXICALE STRUCTURÉE  SÉMANTIQUE
+                │           │       │
+                │           │       ▼
+                │           │    RÉSULTATS
+                │           │       │
+                └──────┬────┘       │
+                       │             │
+                       └──────┬──────┘
+                              ▼
+                            VEILLE
+                              │
+            ┌─────────────────┼──────────────────┐
+            ▼                 ▼                  ▼
+       NOUVEAUTÉS         RELATIONS          CHANGEMENTS
+            │                 │                  │
+       publications       citations          corrections
+       preprints           similarité         rétractations
+                              │               updates
+                              ▼
+                         HISTORIQUE
+
+131. RÉSUMÉ TECHNIQUE DU MODULE
+Le module Bibliographie OLS doit être conçu comme un système documentaire scientifique composé de quatre fonctions complémentaires :
+Bibliothèque
+Gestion du corpus conservé, avec séparation entre :
+bibliothèque personnelle
+bibliothèque laboratoire
+et support de :
+dossiers
+sous-dossiers
+collections
+tags
+statuts
+recherches sauvegardées
+Recherche
+Moteur fédéré capable d'interroger plusieurs sources en utilisant un modèle de requête OLS indépendant des syntaxes propriétaires :
+lexical
+booléen
+structuré
+sémantique
+hybride
+avec :
+normalisation
+déduplication
+identité canonique
+enrichissement multisource
+Statistiques
+Vue contextuelle intégrée à la Bibliothèque et à la Recherche, présentée sous forme de minimap :
+dynamique
+interactive
+compacte
+rétractable
+redimensionnable
+Les statistiques portent toujours sur le contexte actuellement affiché.
+Veille
+Système de surveillance temporelle pouvant suivre :
+requêtes
+thématiques
+collections
+articles
+auteurs
+journaux
+institutions
+et détecter :
+nouvelles publications
+citations
+similarité
+préprint → publication
+corrections
+rétractations
+mises à jour
+avec :
+multisource
+déduplication
+pertinence
+historique
+digests
+mode silencieux
+
+132. FORMULATION TECHNIQUE GLOBALE
+Le module Bibliographie OLS doit fournir une infrastructure documentaire scientifique permettant l'ingestion et l'exploitation de métadonnées provenant de multiples sources, leur normalisation, leur rattachement à des entités documentaires canoniques, leur déduplication et leur enrichissement, ainsi que leur consultation et leur organisation dans des bibliothèques personnelles et collectives. Il doit intégrer un moteur de recherche fédéré reposant sur une représentation abstraite des requêtes afin d'adapter les recherches aux capacités propres à chaque source, un système de statistiques contextuelles intégré aux vues Bibliothèque et Recherche, ainsi qu'un système de veille multisource capable de détecter les nouveaux documents, relations bibliographiques et modifications post-publication. L'ensemble doit respecter les contraintes propres aux sources, aux licences, au contenu intégral et aux droits de stockage ou de redistribution, tout en conservant une interface progressive, explicite et non surchargée.
+
+133. ARCHITECTURE FONCTIONNELLE À CONSIDÉRER COMME RÉFÉRENCE
+                             BIBLIOGRAPHIE
+                                   │
+                                   ▼
+                              STATISTIQUES
+                               ╱        ╲
+                              ╱          ╲
+                             ▼            ▼
+                    BIBLIOTHÈQUE      RECHERCHE
+                       │                  │
+             ┌─────────┴─────────┐       │
+             ▼                   ▼       ▼
+        PERSONNELLE          LABORATOIRE SOURCES
+             │                   │       │
+             └─────────┬─────────┘       │
+                       │                 │
+                       └────────┬────────┘
+                                ▼
+                              VEILLE
+Règle définitive :
+Bibliothèque ─────► Veille
+Recherche ────────► Veille
+
+Bibliothèque ◄──── Statistiques ────► Recherche
+Il n'y a pas de relation Statistiques → Veille dans l'architecture conceptuelle principale.
+
+Cette fiche constitue maintenant une base technique fonctionnelle complète, en conservant les éléments établis dans les deux documents et en les transformant en règles et exigences plus précises. Les points qui restent volontairement ouverts — notamment les contrats exacts des APIs, les limites quantitatives de chaque source, le modèle de données physique, les mécanismes d'authentification, la stratégie de cache, les seuils de déduplication et les détails d'implémentation — devront être verrouillés dans la phase de spécification technique détaillée plutôt que d'être inventés à ce stade.
